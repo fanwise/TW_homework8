@@ -44,19 +44,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
-//        Map<String, String> map;
-//        mPMList = new ArrayList<>();
-//
-//        String[] position = {
-//                "aaa",
-//                "bbb"};
-//
-//        for (int i = 0; i < 1; i++) {
-//            map = new HashMap<>();
-//            map.put(KEY_POSITION, position[i]);
-//            mPMList.add(map);
-//        }
         
         AirServiceClient.getInstance().requestPM25(new Callback<List<PM25>>() {
             @Override
@@ -82,14 +69,20 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
+                Map<String, String> map;
+                mPMList = new ArrayList<>();
 
+                map = new HashMap<>();
+                map.put(KEY_POSITION,"onFailure");
+                mPMList.add(map);
+
+
+                mPullToRefreshView.setRefreshing(false);
+
+                recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+                recyclerView.setAdapter(new PMAdapter());
             }
         });
-
-
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(new PMAdapter());
-
 
         mPullToRefreshView = (PullToRefreshView) findViewById(R.id.pull_to_refresh);
         mPullToRefreshView.setRefreshing(true);
@@ -99,7 +92,44 @@ public class MainActivity extends AppCompatActivity {
                 mPullToRefreshView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mPullToRefreshView.setRefreshing(false);
+                        AirServiceClient.getInstance().requestPM25(new Callback<List<PM25>>() {
+                            @Override
+                            public void onResponse(Response<List<PM25>> response, Retrofit retrofit) {
+
+                                Map<String, String> map;
+                                mPMList = new ArrayList<>();
+
+                                for (int i = 0; i < response.body().size() - 1; i++) {
+                                    map = new HashMap<>();
+                                    map.put(KEY_POSITION, response.body().get(i).getPositionName());
+                                    map.put(KEY_AQI,response.body().get(i).getAqi());
+                                    map.put(KEY_QUALITY,response.body().get(i).getQuality());
+                                    map.put(KEY_PM25,response.body().get(i).getPm25());
+                                    mPMList.add(map);
+                                }
+
+                                mPullToRefreshView.setRefreshing(false);
+
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+                                recyclerView.setAdapter(new PMAdapter());
+                            }
+
+                            @Override
+                            public void onFailure(Throwable t) {
+                                Map<String, String> map;
+                                mPMList = new ArrayList<>();
+
+                                map = new HashMap<>();
+                                map.put(KEY_POSITION,"onFailure");
+                                mPMList.add(map);
+
+
+                                mPullToRefreshView.setRefreshing(false);
+
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+                                recyclerView.setAdapter(new PMAdapter());
+                            }
+                        });
                     }
                 }, REFRESH_DELAY);
             }
@@ -150,24 +180,28 @@ public class MainActivity extends AppCompatActivity {
 
         public void bindData(Map<String, String> data) {
             mData = data;
-            TextViewPosition.setText(mData.get(KEY_POSITION));
-            TextViewAqi.setText("空气指数：" + mData.get(KEY_AQI));
-            TextViewQuality.setText("质量状况：" + mData.get(KEY_QUALITY));
-            TextViewPM25.setText("PM2.5浓度：" + mData.get(KEY_PM25) + "μg/m³");
-            int nAqi = Integer.parseInt(mData.get(KEY_AQI));
+            if(mData.get(KEY_POSITION) != "onFailure") {
+                TextViewPosition.setText(mData.get(KEY_POSITION));
+                TextViewAqi.setText("空气指数：" + mData.get(KEY_AQI));
+                TextViewQuality.setText("质量状况：" + mData.get(KEY_QUALITY));
+                TextViewPM25.setText("PM2.5浓度：" + mData.get(KEY_PM25) + "μg/m³");
+                int nAqi = Integer.parseInt(mData.get(KEY_AQI));
 
-            if(nAqi < 51)
-                mRootView.setBackgroundResource(R.color.excellent);
-            else if(nAqi < 101)
-                mRootView.setBackgroundResource(R.color.good);
-            else if(nAqi < 151)
-                mRootView.setBackgroundResource(R.color.pollute_lightly);
-            else if(nAqi < 201)
-                mRootView.setBackgroundResource(R.color.pollute_moderately);
-            else if(nAqi < 301)
-                mRootView.setBackgroundResource(R.color.pollute_heavily);
-            else
-                mRootView.setBackgroundResource(R.color.pollute_severely);
+                if (nAqi < 51)
+                    mRootView.setBackgroundResource(R.color.excellent);
+                else if (nAqi < 101)
+                    mRootView.setBackgroundResource(R.color.good);
+                else if (nAqi < 151)
+                    mRootView.setBackgroundResource(R.color.pollute_lightly);
+                else if (nAqi < 201)
+                    mRootView.setBackgroundResource(R.color.pollute_moderately);
+                else if (nAqi < 301)
+                    mRootView.setBackgroundResource(R.color.pollute_heavily);
+                else
+                    mRootView.setBackgroundResource(R.color.pollute_severely);
+            }else {
+                TextViewPosition.setText("获取数据失败");
+            }
         }
     }
 }

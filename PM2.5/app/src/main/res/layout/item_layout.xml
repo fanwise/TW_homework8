@@ -9,8 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical = "true"
         android:textSize="20dp"
-        android:padding="21dp"
-        android:text="高压开关厂"/>
+        android:padding="21dp" />
 
     <View
         android:id="@+id/action_hdivider"
@@ -25,8 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/action_hdivider"
         android:textSize="16dp"
-        android:padding="10dp"
-        android:text="空气指数：400"/>
+        android:padding="10dp"/>
 
     <TextView
         android:id="@+id/tv_quality"
@@ -35,8 +33,7 @@
         android:layout_toRightOf="@id/action_hdivider"
         android:layout_below="@id/tv_aqi"
         android:textSize="16dp"
-        android:padding="10dp"
-        android:text="质量状况：严重污染"/>
+        android:padding="10dp"/>
 
     <TextView
         android:id="@+id/tv_pm25"
@@ -45,8 +42,7 @@
         android:layout_below="@id/tv_quality"
         android:layout_toRightOf="@id/action_hdivider"
         android:textSize="16dp"
-        android:padding="10dp"
-        android:text="PM2.5浓度：300μg/m³"/>
+        android:padding="10dp"/>
 
     <View
         android:id="@+id/action_vdivider"

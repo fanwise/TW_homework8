@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="125dp">
+
+    <TextView
+        android:id="@+id/tv_position"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical = "true"
+        android:textSize="30dp"
+        android:padding="21dp"
+        android:text="高压开关厂"/>
+
+    <View
+        android:id="@+id/action_hdivider"
+        android:layout_width="3dp"
+        android:layout_height="fill_parent"
+        android:layout_centerHorizontal = "true"
+        />
+
+    <TextView
+        android:id="@+id/tv_aqi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/action_hdivider"
+        android:textSize="16dp"
+        android:padding="10dp"
+        android:text="空气指数：400"/>
+
+    <TextView
+        android:id="@+id/tv_quality"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/action_hdivider"
+        android:layout_below="@id/tv_aqi"
+        android:textSize="16dp"
+        android:padding="10dp"
+        android:text="质量状况：严重污染"/>
+
+    <TextView
+        android:id="@+id/tv_pm25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_quality"
+        android:layout_toRightOf="@id/action_hdivider"
+        android:textSize="16dp"
+        android:padding="10dp"
+        android:text="PM2.5浓度：300μg/m³"/>
+
+    <View
+        android:id="@+id/action_vdivider"
+        android:layout_width="fill_parent"
+        android:layout_height="3dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/holo_blue_light"/>
+
+</RelativeLayout>

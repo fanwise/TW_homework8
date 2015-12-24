@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="excellent">#66C200</color>
+    <color name="good">#FFD10F</color>
+    <color name="pollute_lightly">#FFA81A</color>
+    <color name="pollute_moderately">#EB5F10</color>
+    <color name="pollute_heavily">#B00050</color>
+    <color name="pollute_severely">#5A0723</color>
+    
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>

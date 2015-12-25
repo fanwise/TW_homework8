@@ -182,12 +182,20 @@ public class MainActivity extends AppCompatActivity {
             mData = data;
             if(mData.get(KEY_POSITION) != "onFailure") {
                 TextViewPosition.setText(mData.get(KEY_POSITION));
-                TextViewAqi.setText("空气指数：" + mData.get(KEY_AQI));
-                TextViewQuality.setText("质量状况：" + mData.get(KEY_QUALITY));
-                TextViewPM25.setText("PM2.5浓度：" + mData.get(KEY_PM25) + "μg/m³");
                 int nAqi = Integer.parseInt(mData.get(KEY_AQI));
+                if(nAqi != 0) {
+                    TextViewAqi.setText("空气指数：" + mData.get(KEY_AQI));
+                    TextViewQuality.setText("质量状况：" + mData.get(KEY_QUALITY));
+                    TextViewPM25.setText("PM2.5浓度：" + mData.get(KEY_PM25) + "μg/m³");
+                }else {
+                    TextViewAqi.setText("");
+                    TextViewQuality.setText("暂无数据");
+                    TextViewPM25.setText("");
+                }
 
-                if (nAqi < 51)
+                if(nAqi == 0)
+                    mRootView.setBackgroundResource(R.color.white);
+                else if (nAqi < 51)
                     mRootView.setBackgroundResource(R.color.excellent);
                 else if (nAqi < 101)
                     mRootView.setBackgroundResource(R.color.good);
